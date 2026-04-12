@@ -9,25 +9,39 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #07111f;
-      --bg-2: #0f172a;
-      --bg-3: #111827;
-      --surface: rgba(255,255,255,0.08);
+      --bg: #f8fbff;
+      --bg-soft: #eef5ff;
+      --surface: rgba(255,255,255,0.88);
       --surface-strong: #ffffff;
-      --surface-soft: #f8fafc;
       --text: #0f172a;
       --muted: #475569;
-      --muted-light: #cbd5e1;
-      --line: rgba(148, 163, 184, 0.22);
-      --accent: #3b82f6;
+      --muted-light: #94a3b8;
+      --line: rgba(148,163,184,0.18);
+      --accent: #2563eb;
       --accent-2: #60a5fa;
       --accent-soft: #dbeafe;
-      --white: #ffffff;
-      --shadow: 0 18px 50px rgba(2, 8, 23, 0.18);
+      --shadow: 0 18px 50px rgba(2, 8, 23, 0.12);
       --shadow-soft: 0 10px 30px rgba(15, 23, 42, 0.08);
       --radius: 24px;
       --radius-lg: 32px;
       --max: 1160px;
+      --hero-overlay: linear-gradient(rgba(7,17,31,0.78), rgba(15,23,42,0.88));
+      --hero-end: #f8fbff;
+    }
+
+    body.dark-mode {
+      --bg: #07111f;
+      --bg-soft: #0f172a;
+      --surface: rgba(15,23,42,0.84);
+      --surface-strong: #0f172a;
+      --text: #e5eefc;
+      --muted: #cbd5e1;
+      --muted-light: #94a3b8;
+      --line: rgba(148,163,184,0.16);
+      --accent-soft: rgba(59,130,246,0.14);
+      --hero-end: #07111f;
+      --shadow: 0 18px 50px rgba(0,0,0,0.28);
+      --shadow-soft: 0 10px 30px rgba(0,0,0,0.22);
     }
 
     * { box-sizing: border-box; }
@@ -36,9 +50,14 @@
       margin: 0;
       font-family: 'Inter', sans-serif;
       color: var(--text);
-      background: linear-gradient(180deg, #f8fbff 0%, #ffffff 45%, #f8fafc 100%);
+      background: linear-gradient(180deg, var(--bg) 0%, #ffffff 45%, var(--bg-soft) 100%);
       line-height: 1.65;
       overflow-x: hidden;
+      transition: background 0.35s ease, color 0.35s ease;
+    }
+
+    body.dark-mode {
+      background: linear-gradient(180deg, #07111f 0%, #0b1528 45%, #111827 100%);
     }
 
     a { text-decoration: none; color: inherit; }
@@ -49,51 +68,98 @@
       margin: 0 auto;
     }
 
+    .scroll-indicator {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 0%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      z-index: 300;
+      box-shadow: 0 2px 10px rgba(59,130,246,0.35);
+      transition: width 0.08s linear;
+    }
+
     .nav {
       position: sticky;
-      top: 0;
-      z-index: 100;
-      backdrop-filter: blur(14px);
-      background: rgba(7, 17, 31, 0.8);
-      border-bottom: 1px solid rgba(226, 232, 240, 0.08);
+      top: 12px;
+      z-index: 200;
+      padding-top: 0.75rem;
     }
 
     .nav-inner {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 1rem 0;
+      gap: 1rem;
+      padding: 0.95rem 1.25rem;
+      backdrop-filter: blur(16px);
+      background: rgba(7, 17, 31, 0.72);
+      border: 1px solid rgba(226, 232, 240, 0.08);
+      border-radius: 999px;
+      box-shadow: 0 14px 35px rgba(2,8,23,0.14);
+      transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
     }
 
     .brand {
-      color: var(--white);
+      color: #fff;
       font-weight: 800;
       letter-spacing: 0.3px;
       font-size: 1.02rem;
+      white-space: nowrap;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
     }
 
     .nav-links {
       display: flex;
-      gap: 1.25rem;
+      gap: 0.6rem;
       flex-wrap: wrap;
     }
 
     .nav-links a {
       color: #dbe4f0;
-      font-size: 0.95rem;
+      font-size: 0.93rem;
+      padding: 0.55rem 0.85rem;
+      border-radius: 999px;
       transition: 0.2s ease;
     }
 
-    .nav-links a:hover { color: var(--white); }
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: #fff;
+      background: rgba(255,255,255,0.1);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06);
+    }
+
+    .mode-toggle {
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.08);
+      color: #fff;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .mode-toggle:hover { transform: translateY(-1px); background: rgba(255,255,255,0.14); }
 
     .hero {
       position: relative;
       background:
-        linear-gradient(rgba(7,17,31,0.78), rgba(15,23,42,0.88)),
+        var(--hero-overlay),
         radial-gradient(circle at top left, rgba(96,165,250,0.20), transparent 28%),
         radial-gradient(circle at 85% 20%, rgba(59,130,246,0.20), transparent 24%),
         linear-gradient(135deg, #07111f 0%, #0f172a 52%, #16233a 100%);
-      color: var(--white);
+      color: #fff;
       padding: 5.8rem 0 4.8rem;
     }
 
@@ -105,9 +171,8 @@
         linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
         linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px),
         radial-gradient(circle at 20% 30%, rgba(96,165,250,0.14) 0 2px, transparent 2px),
-        radial-gradient(circle at 70% 60%, rgba(96,165,250,0.1) 0 2px, transparent 2px),
-        radial-gradient(circle at 85% 25%, rgba(96,165,250,0.1) 0 2px, transparent 2px);
-      background-size: 42px 42px, 42px 42px, 180px 180px, 220px 220px, 160px 160px;
+        radial-gradient(circle at 70% 60%, rgba(96,165,250,0.1) 0 2px, transparent 2px);
+      background-size: 42px 42px, 42px 42px, 180px 180px, 220px 220px;
       opacity: 0.35;
       pointer-events: none;
     }
@@ -117,7 +182,7 @@
       position: absolute;
       inset: auto 0 0 0;
       height: 120px;
-      background: linear-gradient(to bottom, rgba(255,255,255,0), #f8fbff 95%);
+      background: linear-gradient(to bottom, rgba(255,255,255,0), var(--hero-end) 95%);
       pointer-events: none;
     }
 
@@ -150,24 +215,25 @@
       line-height: 1.02;
       margin: 0 0 1rem;
       font-weight: 800;
-      max-width: 10.5ch;
+      max-width: 11ch;
     }
 
-    .hero .subhead {
+    .subhead {
       font-size: 1.18rem;
       color: #d6e1ef;
       max-width: 760px;
       margin-bottom: 1rem;
     }
 
-    .hero .impact {
+    .impact {
       color: #e5eefc;
       max-width: 700px;
-      margin-bottom: 2rem;
+      margin-bottom: 1.5rem;
       font-size: 1.02rem;
     }
 
-    .button-row {
+    .button-row,
+    .contact-actions {
       display: flex;
       gap: 1rem;
       flex-wrap: wrap;
@@ -180,7 +246,7 @@
       padding: 0.92rem 1.35rem;
       border-radius: 999px;
       font-weight: 700;
-      transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+      transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
       border: 1px solid transparent;
     }
 
@@ -188,14 +254,42 @@
 
     .btn-primary {
       background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
-      color: var(--white);
+      color: #fff;
       box-shadow: 0 16px 32px rgba(59, 130, 246, 0.28);
     }
 
+    .btn-primary:hover { box-shadow: 0 18px 38px rgba(59,130,246,0.36); }
+
     .btn-secondary {
       border-color: rgba(255,255,255,0.2);
-      color: var(--white);
+      color: #fff;
       background: rgba(255,255,255,0.04);
+    }
+
+    .credibility-strip {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap: 0.9rem;
+      margin-top: 1.4rem;
+    }
+
+    .credibility-item {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 18px;
+      padding: 0.95rem 1rem;
+      color: #e5eefc;
+      font-size: 0.93rem;
+      transform: translateY(0);
+      transition: transform 0.25s ease, background 0.25s ease;
+    }
+
+    .credibility-item:hover { transform: translateY(-4px); background: rgba(255,255,255,0.11); }
+
+    .resume-line {
+      margin-top: 0.95rem;
+      color: #cbd5e1;
+      font-size: 0.97rem;
     }
 
     .hero-panel {
@@ -206,6 +300,8 @@
       box-shadow: var(--shadow);
       position: relative;
       overflow: hidden;
+      transform: translateY(0);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
     }
 
     .hero-panel::before {
@@ -216,35 +312,38 @@
       pointer-events: none;
     }
 
-    .hero-panel h3 {
-      margin-top: 0;
-      margin-bottom: 0.75rem;
-      position: relative;
-      z-index: 1;
+    .hero-panel > * { position: relative; z-index: 1; }
+    .hero-panel p { color: #e2e8f0; }
+    .hero-panel:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 22px 44px rgba(15,23,42,0.18);
     }
 
-    .hero-panel p {
-      position: relative;
-      z-index: 1;
-      color: #e2e8f0;
+    .social-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+      padding: 0.82rem 1rem;
+      border-radius: 16px;
+      color: #fff;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.14);
+      transition: transform 0.2s ease, background 0.2s ease;
     }
 
-    .tag-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-      margin-top: 1rem;
-      position: relative;
-      z-index: 1;
-    }
+    .social-btn:hover { transform: translateY(-2px); background: rgba(255,255,255,0.16); }
 
-    .tag {
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.1);
-      color: #e2e8f0;
-      padding: 0.55rem 0.85rem;
-      border-radius: 999px;
-      font-size: 0.9rem;
+    .social-icon,
+    .contact-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,0.12);
+      color: #fff;
+      flex-shrink: 0;
     }
 
     section {
@@ -253,7 +352,11 @@
     }
 
     .section-alt {
-      background: linear-gradient(180deg, #f8fafc 0%, #f3f8ff 100%);
+      background: linear-gradient(180deg, var(--bg-soft) 0%, rgba(219,234,254,0.35) 100%);
+    }
+
+    body.dark-mode .section-alt {
+      background: linear-gradient(180deg, #0f172a 0%, #111827 100%);
     }
 
     .section-title {
@@ -276,12 +379,27 @@
       align-items: stretch;
     }
 
-    .profile-card {
-      background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
-      border-radius: var(--radius-lg);
+    .profile-card,
+    .card,
+    .project-card,
+    .stat-card {
+      background: linear-gradient(180deg, var(--surface-strong) 0%, rgba(255,255,255,0.82) 100%);
+      border-radius: var(--radius);
       padding: 1.6rem;
-      box-shadow: var(--shadow);
-      border: 1px solid rgba(148, 163, 184, 0.14);
+      box-shadow: var(--shadow-soft);
+      border: 1px solid var(--line);
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease, background 0.35s ease;
+    }
+
+    body.dark-mode .profile-card,
+    body.dark-mode .card,
+    body.dark-mode .project-card,
+    body.dark-mode .stat-card {
+      background: rgba(15,23,42,0.84);
+    }
+
+    .profile-card {
+      border-radius: var(--radius-lg);
       text-align: center;
     }
 
@@ -304,57 +422,30 @@
       background: #e2e8f0;
     }
 
-    .profile-card h3 {
-      margin: 0.35rem 0 0.4rem;
-      font-size: 1.35rem;
-    }
-
-    .profile-card p {
-      margin: 0;
-      color: var(--muted);
-    }
-
-    .profile-badges {
+    .profile-badges,
+    .tag-list {
       display: flex;
       flex-wrap: wrap;
-      justify-content: center;
       gap: 0.6rem;
       margin-top: 1rem;
     }
 
-    .profile-badge {
-      padding: 0.5rem 0.8rem;
+    .profile-badge,
+    .tag,
+    .pill {
+      padding: 0.48rem 0.78rem;
       border-radius: 999px;
       background: var(--accent-soft);
       color: #1d4ed8;
-      font-size: 0.85rem;
+      font-size: 0.84rem;
       font-weight: 700;
+      border: 1px solid rgba(96,165,250,0.16);
     }
 
-    .two-col {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.5rem;
-    }
-
-    .card {
-      background: rgba(255,255,255,0.86);
-      backdrop-filter: blur(8px);
-      border-radius: var(--radius);
-      padding: 1.6rem;
-      box-shadow: var(--shadow-soft);
-      border: 1px solid rgba(148, 163, 184, 0.14);
-    }
-
-    .card h3 {
-      margin-top: 0;
-      margin-bottom: 0.75rem;
-      font-size: 1.2rem;
-    }
-
-    .card p {
-      margin: 0.4rem 0;
-      color: var(--muted);
+    body.dark-mode .profile-badge,
+    body.dark-mode .tag,
+    body.dark-mode .pill {
+      color: #93c5fd;
     }
 
     .mini-title {
@@ -366,147 +457,72 @@
       margin-bottom: 0.55rem;
     }
 
-    .projects-grid {
+    .two-col,
+    .projects-grid,
+    .stats-grid,
+    .contact-grid,
+    .stack-grid {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 1.5rem;
     }
 
-    .project-card {
-      background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
-      border-radius: 28px;
-      padding: 1.6rem;
-      box-shadow: var(--shadow-soft);
-      display: flex;
-      flex-direction: column;
-      gap: 0.95rem;
-      border: 1px solid rgba(148, 163, 184, 0.14);
-      transition: transform 0.22s ease, box-shadow 0.22s ease;
-      position: relative;
-      overflow: hidden;
+    .two-col { grid-template-columns: 1fr 1fr; }
+    .projects-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .stats-grid { grid-template-columns: repeat(4, minmax(0,1fr)); margin-top: 2rem; }
+    .contact-grid { grid-template-columns: 1.2fr 0.8fr; }
+    .stack-grid { grid-template-columns: repeat(4, minmax(0,1fr)); }
+
+    .card:hover,
+    .stat-card:hover,
+    .profile-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 34px rgba(15,23,42,0.12);
     }
 
     .project-card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 22px 46px rgba(37, 99, 235, 0.16), 0 10px 24px rgba(15, 23, 42, 0.12);
-      border-color: rgba(96, 165, 250, 0.4);
+      transform: translateY(-8px) scale(1.01);
+      box-shadow: 0 22px 46px rgba(37, 99, 235, 0.18), 0 0 0 1px rgba(96,165,250,0.22);
+      border-color: rgba(96,165,250,0.5);
     }
 
     .artifact-preview {
-      height: 200px;
+      height: 210px;
       border-radius: 20px;
-      background: linear-gradient(135deg, #dbeafe 0%, #eff6ff 48%, #f8fbff 100%);
-      border: 1px solid #dbeafe;
-      padding: 1rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      position: relative;
       overflow: hidden;
-    }
-
-    .artifact-preview::before {
-      content: "";
-      position: absolute;
-      top: -30px;
-      right: -20px;
-      width: 120px;
-      height: 120px;
-      border-radius: 24px;
-      background: rgba(59,130,246,0.10);
-      transform: rotate(18deg);
-    }
-
-    .artifact-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 1rem;
       position: relative;
-      z-index: 1;
+      border: 1px solid rgba(96,165,250,0.14);
+      background: #eaf2ff;
     }
 
-    .artifact-icon {
-      width: 56px;
-      height: 56px;
-      border-radius: 18px;
-      background: linear-gradient(135deg, #2563eb 0%, #60a5fa 100%);
-      color: #ffffff;
+    .artifact-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.45s ease;
+    }
+
+    .project-card:hover .artifact-preview img {
+      transform: scale(1.05);
+    }
+
+    .overlay {
+      position: absolute;
+      inset: 0;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 12px 24px rgba(37,99,235,0.22);
-      flex-shrink: 0;
-    }
-
-    .artifact-mini-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 0.45rem;
-      position: relative;
-      z-index: 1;
-    }
-
-    .artifact-mini-grid span {
-      height: 10px;
-      border-radius: 999px;
-      background: rgba(37,99,235,0.16);
-    }
-
-    .artifact-mini-grid span:nth-child(2),
-    .artifact-mini-grid span:nth-child(5) {
-      background: rgba(96,165,250,0.32);
-    }
-
-    .artifact-label {
-      position: relative;
-      z-index: 1;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.45rem;
-      padding: 0.45rem 0.72rem;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.72);
-      color: #1d4ed8;
-      font-size: 0.84rem;
+      background: rgba(15,23,42,0.58);
+      color: #fff;
       font-weight: 700;
-      width: fit-content;
+      opacity: 0;
+      transition: 0.3s ease;
+      letter-spacing: 0.02em;
     }
 
-    .project-card h3 {
-      margin: 0;
-      font-size: 1.28rem;
-      line-height: 1.25;
-    }
-
-    .project-meta {
-      display: grid;
-      gap: 0.55rem;
-      color: var(--muted);
-      font-size: 0.96rem;
-    }
-
-    .project-links {
-      display: flex;
-      gap: 0.75rem;
-      margin-top: 0.4rem;
-      flex-wrap: wrap;
-    }
-
-    .pill {
-      display: inline-block;
-      padding: 0.45rem 0.78rem;
-      background: #eff6ff;
-      color: #1d4ed8;
-      border-radius: 999px;
-      font-size: 0.84rem;
-      font-weight: 700;
-      margin: 0.15rem 0.25rem 0 0;
-      border: 1px solid #dbeafe;
-    }
+    .project-card:hover .overlay { opacity: 1; }
 
     .artifact-detail {
-      border-top: 1px solid #e2e8f0;
+      border-top: 1px solid rgba(148,163,184,0.16);
       padding-top: 0.82rem;
       color: var(--muted);
       font-size: 0.96rem;
@@ -514,32 +530,13 @@
 
     .artifact-detail strong { color: var(--text); }
 
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 1rem;
-      margin-top: 2rem;
-    }
-
-    .stat-card {
-      background: #ffffff;
-      border-radius: 22px;
-      padding: 1.2rem;
-      box-shadow: var(--shadow-soft);
-      border: 1px solid rgba(148, 163, 184, 0.14);
-    }
-
     .stat-card h3 {
       margin: 0;
       font-size: 1.8rem;
       color: #1d4ed8;
     }
 
-    .stat-card p {
-      margin: 0.25rem 0 0;
-      color: var(--muted);
-      font-size: 0.95rem;
-    }
+    .stat-card p { margin: 0.25rem 0 0; color: var(--muted); }
 
     .contact-shell {
       position: relative;
@@ -549,6 +546,7 @@
       box-shadow: var(--shadow);
       border: 1px solid rgba(148,163,184,0.16);
       padding: 2rem;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
     }
 
     .contact-shell::before {
@@ -575,40 +573,16 @@
       pointer-events: none;
     }
 
-    .contact-grid {
-      position: relative;
-      z-index: 1;
-      display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      gap: 1.5rem;
-      align-items: stretch;
+    .contact-copy,
+    .contact-card-side { position: relative; z-index: 1; }
+    .contact-shell:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 24px 48px rgba(2,8,23,0.24);
     }
-
-    .contact-copy {
-      color: #e2e8f0;
-    }
-
-    .contact-copy .mini-title {
-      color: #93c5fd;
-    }
-
-    .contact-copy h2 {
-      color: #ffffff;
-      margin-bottom: 0.75rem;
-    }
-
-    .contact-copy p {
-      color: #dbe7f5;
-      max-width: 620px;
-      margin-bottom: 1.3rem;
-    }
-
-    .contact-actions {
-      display: flex;
-      gap: 0.9rem;
-      flex-wrap: wrap;
-      margin-top: 1rem;
-    }
+    .contact-copy { color: #e2e8f0; }
+    .contact-copy .mini-title { color: #93c5fd; }
+    .contact-copy h2 { color: #fff; margin-bottom: 0.75rem; }
+    .contact-copy p { color: #dbe7f5; max-width: 620px; margin-bottom: 1rem; }
 
     .contact-card-side {
       background: rgba(255,255,255,0.08);
@@ -629,41 +603,32 @@
 
     .contact-method:last-child { border-bottom: none; }
 
-    .contact-icon,
-    .social-icon {
-      width: 46px;
-      height: 46px;
-      border-radius: 14px;
+    .availability-badge {
       display: inline-flex;
       align-items: center;
-      justify-content: center;
-      background: rgba(255,255,255,0.12);
-      color: #ffffff;
-      flex-shrink: 0;
+      gap: 0.5rem;
+      padding: 0.55rem 0.8rem;
+      border-radius: 999px;
+      background: rgba(34,197,94,0.12);
+      border: 1px solid rgba(34,197,94,0.22);
+      color: #86efac;
+      font-weight: 700;
+      font-size: 0.9rem;
+      margin-top: 0.4rem;
     }
 
-    .social-row {
-      display: flex;
-      gap: 0.8rem;
-      margin-top: 1rem;
-      flex-wrap: wrap;
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px) scale(0.985);
+      transition: opacity 0.8s ease, transform 0.8s ease, filter 0.8s ease;
+      filter: blur(6px);
+      will-change: transform, opacity, filter;
     }
 
-    .social-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.7rem;
-      padding: 0.82rem 1rem;
-      border-radius: 16px;
-      color: #ffffff;
-      background: rgba(255,255,255,0.1);
-      border: 1px solid rgba(255,255,255,0.14);
-      transition: transform 0.2s ease, background 0.2s ease;
-    }
-
-    .social-btn:hover {
-      transform: translateY(-2px);
-      background: rgba(255,255,255,0.16);
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      filter: blur(0);
     }
 
     .footer {
@@ -673,24 +638,15 @@
       text-align: center;
     }
 
-    .reveal {
-      opacity: 0;
-      transform: translateY(24px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
-    }
-
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
     @media (max-width: 980px) {
       .hero-grid,
       .about-layout,
       .two-col,
       .projects-grid,
       .stats-grid,
-      .contact-grid {
+      .contact-grid,
+      .stack-grid,
+      .credibility-strip {
         grid-template-columns: 1fr;
       }
 
@@ -699,23 +655,34 @@
     }
 
     @media (max-width: 720px) {
-      .hero { padding-top: 4.8rem; }
-      .nav-inner { gap: 1rem; align-items: flex-start; flex-direction: column; }
-      .nav-links { gap: 0.9rem; }
+      .nav { top: 8px; }
+      .nav-inner { flex-direction: column; align-items: stretch; border-radius: 28px; }
+      .nav-actions { justify-content: space-between; }
+      .nav-links { gap: 0.4rem; }
+      .nav-links a { padding: 0.5rem 0.7rem; }
       section { padding: 4rem 0; }
       .contact-shell { padding: 1.25rem; }
+      .hero { padding-top: 4.7rem; }
     }
   </style>
 </head>
 <body>
+  <div class="scroll-indicator" id="scrollIndicator"></div>
+
   <nav class="nav">
     <div class="container nav-inner">
       <div class="brand">Prakhyath Bolla</div>
-      <div class="nav-links">
-        <a href="#about">About</a>
-        <a href="#value">Value</a>
-        <a href="#artifacts">Artifacts</a>
-        <a href="#contact">Contact</a>
+      <div class="nav-actions">
+        <div class="nav-links">
+          <a href="#about">About</a>
+          <a href="#stack">Stack</a>
+          <a href="#mindset">Mindset</a>
+          <a href="#artifacts">Artifacts</a>
+          <a href="#contact">Contact</a>
+        </div>
+        <button class="mode-toggle" id="modeToggle" aria-label="Toggle dark mode">
+          <svg id="modeIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3C11.74 3 12 3.26 12 3.79C12 8.67 15.33 12 20.21 12C20.74 12 21 12.26 21 12.79Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+        </button>
       </div>
     </div>
   </nav>
@@ -726,24 +693,37 @@
         <div class="eyebrow">Data Engineer Portfolio</div>
         <h1>Building data platforms that perform beautifully at scale.</h1>
         <p class="subhead">Data Engineer | Real-Time Pipelines | Cloud Architecture | AI-Ready Data Platforms</p>
-        <p class="impact">
-          I build modern, reliable data systems that transform high-volume data into fast, trustworthy, business-ready intelligence. My focus is on real-time engineering, cloud scalability, and strong technical presentation.
-        </p>
+        <p class="impact">I build modern, reliable data systems that transform high-volume data into fast, trustworthy, business-ready intelligence. My focus is on real-time engineering, cloud scalability, and strong technical presentation.</p>
         <div class="button-row">
           <a class="btn btn-primary" href="#artifacts">Explore My Work</a>
-          <a class="btn btn-secondary" href="PrakhyathBolla_Data.docx" target="_blank">Preview Resume</a>
+          <a class="btn btn-secondary" href="https://docs.google.com/gview?url=https://pbolla1311.github.io/PrakhyathBolla_Data.docx&embedded=true" target="_blank" rel="noreferrer">Preview Resume</a>
         </div>
+        <div class="credibility-strip">
+          <div class="credibility-item">Built real-time pipelines processing high-volume data</div>
+          <div class="credibility-item">Reduced latency and improved data reliability</div>
+          <div class="credibility-item">Designed systems ready for AI-driven analytics</div>
+        </div>
+        <p class="resume-line">2+ years experience | Real-time pipelines | Cloud data platforms</p>
+        <div class="availability-badge">● Open to Data Engineering Opportunities</div>
       </div>
+
       <div class="hero-panel reveal">
         <h3>Core Strengths</h3>
-        <p>Production-minded data engineering with a strong focus on performance, structure, reliability, and visual clarity in communication.</p>
-        <div class="tag-list">
-          <span class="tag">Apache Kafka</span>
-          <span class="tag">AWS</span>
-          <span class="tag">Databricks</span>
-          <span class="tag">Delta Lake</span>
-          <span class="tag">PySpark</span>
-          <span class="tag">SQL</span>
+        <p>I’m actively open to Data Engineering, Real-Time Systems, and Cloud Data Platform roles. I bring practical implementation strength, strong system-level thinking, and clear communication around complex technical work.</p>
+        <div class="button-row" style="margin-top:1rem;">
+          <a class="btn btn-secondary" href="mailto:prakhyathbolla@gmail.com">Email Me</a>
+          <a class="social-btn" href="https://www.linkedin.com/in/prakhyath-bolla-data-engineer/" target="_blank" rel="noreferrer">
+            <span class="social-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.94 8.5H3.56V20H6.94V8.5ZM5.25 3C4.17 3 3.5 3.72 3.5 4.66C3.5 5.58 4.15 6.31 5.21 6.31H5.23C6.34 6.31 7.01 5.58 7.01 4.66C6.99 3.72 6.34 3 5.25 3ZM20.5 13.41C20.5 9.88 18.61 8.23 16.09 8.23C14.06 8.23 13.15 9.35 12.64 10.14V8.5H9.26C9.3 9.59 9.26 20 9.26 20H12.64V13.58C12.64 13.24 12.67 12.89 12.76 12.65C13.03 11.96 13.63 11.25 14.67 11.25C16.03 11.25 16.57 12.29 16.57 13.82V20H19.95V13.41H20.5Z"/></svg>
+            </span>
+            LinkedIn
+          </a>
+          <a class="social-btn" href="https://github.com/pbolla1311" target="_blank" rel="noreferrer">
+            <span class="social-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12A11.5 11.5 0 0 0 8.36 22.94c.58.1.79-.25.79-.56v-2.15c-3.18.69-3.85-1.53-3.85-1.53-.52-1.33-1.28-1.68-1.28-1.68-1.05-.72.08-.71.08-.71 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.71 1.26 3.37.96.1-.74.4-1.26.72-1.55-2.54-.29-5.2-1.27-5.2-5.64 0-1.24.44-2.25 1.17-3.04-.12-.29-.51-1.46.11-3.04 0 0 .95-.3 3.11 1.16A10.8 10.8 0 0 1 12 6.84c.96 0 1.93.13 2.83.39 2.16-1.46 3.11-1.16 3.11-1.16.62 1.58.23 2.75.11 3.04.73.79 1.17 1.8 1.17 3.04 0 4.38-2.66 5.35-5.21 5.63.41.35.77 1.04.77 2.1v3.11c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z"/></svg>
+            </span>
+            GitHub
+          </a>
         </div>
       </div>
     </div>
@@ -753,9 +733,7 @@
     <div class="container">
       <div class="reveal">
         <h2 class="section-title">About Me</h2>
-        <p class="section-intro">
-          A strong portfolio should not only show what was built, but why it matters. This section introduces my background, my strengths, and the value I bring as a data engineer focused on building scalable, AI-ready systems.
-        </p>
+        <p class="section-intro">A strong portfolio should not only show what was built, but why it matters. This section introduces my background, strengths, and the value I bring as a data engineer focused on scalable, AI-ready systems.</p>
       </div>
 
       <div class="about-layout">
@@ -796,54 +774,33 @@
       </div>
 
       <div class="stats-grid">
-        <div class="stat-card reveal">
-          <h3>4</h3>
-          <p>Featured portfolio artifacts</p>
-        </div>
-        <div class="stat-card reveal">
-          <h3>6+</h3>
-          <p>Core technologies highlighted</p>
-        </div>
-        <div class="stat-card reveal">
-          <h3>100%</h3>
-          <p>Focused on practical engineering value</p>
-        </div>
-        <div class="stat-card reveal">
-          <h3>1</h3>
-          <p>Clear professional narrative</p>
-        </div>
+        <div class="stat-card reveal"><h3>4</h3><p>Featured portfolio artifacts</p></div>
+        <div class="stat-card reveal"><h3>6+</h3><p>Core technologies highlighted</p></div>
+        <div class="stat-card reveal"><h3>100%</h3><p>Focused on practical engineering value</p></div>
+        <div class="stat-card reveal"><h3>1</h3><p>Clear professional narrative</p></div>
       </div>
     </div>
   </section>
 
-  <section id="value" class="section-alt">
+  <section id="stack" class="section-alt">
     <div class="container">
       <div class="reveal">
-        <h2 class="section-title">What Makes This Portfolio Strong</h2>
-        <p class="section-intro">This portfolio is designed to communicate more than technical tasks. It presents a complete professional story: engineering skill, project structure, business relevance, and readiness for advanced data roles.</p>
+        <h2 class="section-title">Technical Stack Snapshot</h2>
+        <p class="section-intro">A quick view of the technologies I work with across the data platform lifecycle.</p>
       </div>
-      <div class="projects-grid">
-        <div class="card reveal">
-          <div class="mini-title">Systems Thinking</div>
-          <h3>Built for scale</h3>
-          <p>My work reflects an understanding of throughput, architecture, reliability, and long-term maintainability in data systems.</p>
-        </div>
-        <div class="card reveal">
-          <div class="mini-title">Technical Breadth</div>
-          <h3>Cloud and streaming focus</h3>
-          <p>From ingestion to transformation to analytics, I work across the full data platform lifecycle using modern tools.</p>
-        </div>
-        <div class="card reveal">
-          <div class="mini-title">AI Readiness</div>
-          <h3>Data foundations that matter</h3>
-          <p>Clean, timely, well-structured data is the base of every meaningful AI initiative, and that perspective drives my work.</p>
-        </div>
-        <div class="card reveal">
-          <div class="mini-title">Professional Communication</div>
-          <h3>Strong presentation layer</h3>
-          <p>This portfolio is intentionally designed to make technical work easier to understand, evaluate, and remember.</p>
-        </div>
+      <div class="stack-grid">
+        <div class="card reveal"><h3>Streaming</h3><p><span class="pill">Kafka</span> <span class="pill">Kinesis</span></p></div>
+        <div class="card reveal"><h3>Processing</h3><p><span class="pill">PySpark</span> <span class="pill">Databricks</span></p></div>
+        <div class="card reveal"><h3>Cloud</h3><p><span class="pill">AWS</span></p></div>
+        <div class="card reveal"><h3>Storage</h3><p><span class="pill">Delta Lake</span></p></div>
       </div>
+    </div>
+  </section>
+
+  <section id="mindset">
+    <div class="container reveal">
+      <h2 class="section-title">How I Think About Data Engineering</h2>
+      <p class="section-intro">I approach data systems as long-term assets, not pipelines. I focus on reliability, scalability, and clarity in design. My goal is to make data usable, not just available.</p>
     </div>
   </section>
 
@@ -853,108 +810,58 @@
         <h2 class="section-title">Artifacts</h2>
         <p class="section-intro">These artifacts highlight the projects, methods, tools, and business value behind my work in data engineering and platform design.</p>
       </div>
+
       <div class="projects-grid">
         <article class="project-card reveal">
-          <div class="artifact-preview" style="padding:0; background:#eaf2ff;">
-            <img src="Artifact1.png" alt="Artifact 1 preview" style="width:100%; height:100%; object-fit:cover; border-radius:20px;" />
+          <div class="artifact-preview">
+            <img src="Artifact1.png" alt="Artifact 1 preview" />
+            <div class="overlay">View Architecture</div>
           </div>
           <h3>Artifact 1: Real-Time Fraud Detection Platform</h3>
-          <div class="project-meta">
-            <div><strong>Introduction:</strong> A scalable streaming platform designed to process high-volume financial transaction data for fraud detection.</div>
-            <div><strong>Description:</strong> Built around a real-time ingestion and transformation model using a layered architecture to improve speed and reliability.</div>
-          </div>
+          <p style="margin-top:-6px; color:var(--muted);">Real-time fraud detection using Kafka + Databricks</p>
           <div class="artifact-detail"><strong>Objective:</strong> Reduce latency and enable near real-time fraud analytics for critical business operations.</div>
-          <div class="artifact-detail"><strong>Process:</strong> Designed ingestion, built ETL pipelines, organized storage using a Medallion Architecture, and optimized analytics flow.</div>
-          <div class="artifact-detail"><strong>Tools and Tech Used:</strong><br>
-            <span class="pill">Apache Kafka</span>
-            <span class="pill">AWS Kinesis</span>
-            <span class="pill">Databricks</span>
-            <span class="pill">Delta Lake</span>
-            <span class="pill">PySpark</span>
-          </div>
-          <div class="artifact-detail"><strong>Value Proposition:</strong> Demonstrates the ability to build large-scale, low-latency systems that power real-time insight generation.</div>
-          <div class="artifact-detail"><strong>Unique Value:</strong> Strong example of modern streaming architecture and AI-ready data engineering.</div>
-          <div class="artifact-detail"><strong>Relevance:</strong> Highly relevant for employers looking for production-level data engineering capability.</div>
-          <div class="artifact-detail"><strong>References:</strong> Apache Kafka Docs, AWS Kinesis Docs, Databricks Documentation</div>
-          <div class="project-links">
-            <a class="btn btn-primary" href="https://sites.google.com/view/prakhyathbolla/artifact-1?authuser=0" target="_blank">View Artifact</a>
-          </div>
+          <div class="artifact-detail"><strong>Tools:</strong> Kafka, AWS Kinesis, Databricks, Delta Lake, PySpark</div>
+          <div class="artifact-detail"><strong>Value:</strong> Demonstrates the ability to build large-scale, low-latency systems that power real-time insight generation.</div>
+          <div class="project-links"><a class="btn btn-primary" href="https://sites.google.com/view/prakhyathbolla/artifact-1?authuser=0" target="_blank" rel="noreferrer">View Artifact</a></div>
         </article>
 
         <article class="project-card reveal">
-          <div class="artifact-preview" style="padding:0; background:#eaf2ff;">
-            <img src="Artifact2.png" alt="Artifact 2 preview" style="width:100%; height:100%; object-fit:cover; border-radius:20px;" />
+          <div class="artifact-preview">
+            <img src="Artifact2.png" alt="Artifact 2 preview" />
+            <div class="overlay">See Pipeline</div>
           </div>
           <h3>Artifact 2: Data Quality Optimization Pipeline</h3>
-          <div class="project-meta">
-            <div><strong>Introduction:</strong> A structured data pipeline built to improve dataset quality, validation, and reliability.</div>
-            <div><strong>Description:</strong> Focused on cleaning, validating, and monitoring enterprise datasets used for reporting and operational decisions.</div>
-          </div>
+          <p style="margin-top:-6px; color:var(--muted);">Improving data reliability and validation systems</p>
           <div class="artifact-detail"><strong>Objective:</strong> Improve data accuracy and reduce quality issues in downstream reporting.</div>
-          <div class="artifact-detail"><strong>Process:</strong> Identified inconsistencies, developed cleansing logic, introduced monitoring, and automated quality checks.</div>
-          <div class="artifact-detail"><strong>Tools and Tech Used:</strong><br>
-            <span class="pill">Python</span>
-            <span class="pill">SQL</span>
-            <span class="pill">AWS</span>
-            <span class="pill">Validation Frameworks</span>
-          </div>
-          <div class="artifact-detail"><strong>Value Proposition:</strong> Shows how engineering practices can improve trust, compliance, and usability of business data.</div>
-          <div class="artifact-detail"><strong>Unique Value:</strong> Emphasizes governance and reliability, not just pipeline movement.</div>
-          <div class="artifact-detail"><strong>Relevance:</strong> Useful for organizations where clean and dependable data is critical.</div>
-          <div class="artifact-detail"><strong>References:</strong> AWS Best Practices, SQL Documentation</div>
-          <div class="project-links">
-            <a class="btn btn-primary" href="https://sites.google.com/view/prakhyathbolla/artifact-2?authuser=0" target="_blank">View Artifact</a>
-          </div>
+          <div class="artifact-detail"><strong>Tools:</strong> Python, SQL, AWS, Validation Frameworks</div>
+          <div class="artifact-detail"><strong>Value:</strong> Shows how engineering practices can improve trust, compliance, and usability of business data.</div>
+          <div class="project-links"><a class="btn btn-primary" href="https://sites.google.com/view/prakhyathbolla/artifact-2?authuser=0" target="_blank" rel="noreferrer">View Artifact</a></div>
         </article>
 
         <article class="project-card reveal">
-          <div class="artifact-preview" style="padding:0; background:#eaf2ff;">
-            <img src="Artifact3.png" alt="Artifact 3 preview" style="width:100%; height:100%; object-fit:cover; border-radius:20px;" />
+          <div class="artifact-preview">
+            <img src="Artifact3.png" alt="Artifact 3 preview" />
+            <div class="overlay">Explore Project</div>
           </div>
-          <h3>Artifact 3: Batch to Real-Time Pipeline Migration</h3>
-          <div class="project-meta">
-            <div><strong>Introduction:</strong> A modernization effort that replaced traditional batch workflows with continuous processing pipelines.</div>
-            <div><strong>Description:</strong> Redesigned existing data flows to support faster data availability and better responsiveness.</div>
-          </div>
+          <h3>Artifact 3: Batch to Real-Time Migration</h3>
+          <p style="margin-top:-6px; color:var(--muted);">Modernizing batch workflows into streaming pipelines</p>
           <div class="artifact-detail"><strong>Objective:</strong> Reduce processing delays and enable real-time or near real-time data delivery.</div>
-          <div class="artifact-detail"><strong>Process:</strong> Assessed batch workflows, designed a streaming architecture, implemented the new flow, and validated performance gains.</div>
-          <div class="artifact-detail"><strong>Tools and Tech Used:</strong><br>
-            <span class="pill">Kafka</span>
-            <span class="pill">Spark Streaming</span>
-            <span class="pill">AWS</span>
-          </div>
-          <div class="artifact-detail"><strong>Value Proposition:</strong> Highlights modernization capability and readiness for modern AI and analytics environments.</div>
-          <div class="artifact-detail"><strong>Unique Value:</strong> Shows strategic thinking beyond maintenance of legacy processes.</div>
-          <div class="artifact-detail"><strong>Relevance:</strong> Relevant for companies transitioning toward modern event-driven platforms.</div>
-          <div class="artifact-detail"><strong>References:</strong> Apache Spark Documentation, Kafka Guides</div>
-          <div class="project-links">
-            <a class="btn btn-primary" href="https://sites.google.com/view/prakhyathbolla/artifact-3?authuser=0" target="_blank">View Artifact</a>
-          </div>
+          <div class="artifact-detail"><strong>Tools:</strong> Kafka, Spark Streaming, AWS</div>
+          <div class="artifact-detail"><strong>Value:</strong> Highlights modernization capability and readiness for modern AI and analytics environments.</div>
+          <div class="project-links"><a class="btn btn-primary" href="https://sites.google.com/view/prakhyathbolla/artifact-3?authuser=0" target="_blank" rel="noreferrer">View Artifact</a></div>
         </article>
 
         <article class="project-card reveal">
-          <div class="artifact-preview" style="padding:0; background:#eaf2ff;">
-            <img src="Artifact4.png" alt="Artifact 4 preview" style="width:100%; height:100%; object-fit:cover; border-radius:20px;" />
+          <div class="artifact-preview">
+            <img src="Artifact4.png" alt="Artifact 4 preview" />
+            <div class="overlay">View Design</div>
           </div>
-          <h3>Artifact 4: Cloud-Based Data Platform Architecture</h3>
-          <div class="project-meta">
-            <div><strong>Introduction:</strong> A cloud architecture project built to support scalable ingestion, storage, transformation, and analytics.</div>
-            <div><strong>Description:</strong> Designed an end-to-end platform that balanced reliability, performance, and scalability.</div>
-          </div>
+          <h3>Artifact 4: Cloud Data Platform Architecture</h3>
+          <p style="margin-top:-6px; color:var(--muted);">Designing scalable cloud-based data systems</p>
           <div class="artifact-detail"><strong>Objective:</strong> Create a robust and scalable cloud data platform for modern enterprise needs.</div>
-          <div class="artifact-detail"><strong>Process:</strong> Designed storage and compute layers, improved fault tolerance, and optimized for cost and performance.</div>
-          <div class="artifact-detail"><strong>Tools and Tech Used:</strong><br>
-            <span class="pill">AWS</span>
-            <span class="pill">Databricks</span>
-            <span class="pill">SQL</span>
-          </div>
-          <div class="artifact-detail"><strong>Value Proposition:</strong> Demonstrates ability to think at the architecture level while staying practical in execution.</div>
-          <div class="artifact-detail"><strong>Unique Value:</strong> Bridges technical design and business scalability.</div>
-          <div class="artifact-detail"><strong>Relevance:</strong> Strong fit for roles involving cloud data platforms and architecture design.</div>
-          <div class="artifact-detail"><strong>References:</strong> AWS Architecture Framework, Cloud Data Platform Best Practices</div>
-          <div class="project-links">
-            <a class="btn btn-primary" href="https://sites.google.com/view/prakhyathbolla/artifact-4?authuser=0" target="_blank">View Artifact</a>
-          </div>
+          <div class="artifact-detail"><strong>Tools:</strong> AWS, Databricks, SQL</div>
+          <div class="artifact-detail"><strong>Value:</strong> Demonstrates the ability to think at the architecture level while staying practical in execution.</div>
+          <div class="project-links"><a class="btn btn-primary" href="https://sites.google.com/view/prakhyathbolla/artifact-4?authuser=0" target="_blank" rel="noreferrer">View Artifact</a></div>
         </article>
       </div>
     </div>
@@ -966,25 +873,13 @@
         <div class="contact-grid">
           <div class="contact-copy">
             <div class="mini-title">Contact</div>
-            <h2 class="section-title">Let’s connect around data engineering, real-time platforms, and impactful work.</h2>
-            <p>
-              I’m actively open to opportunities where I can contribute to scalable data platforms, streaming architectures, cloud modernization, and AI-ready engineering solutions. If you are a recruiter, hiring manager, technical leader, or collaborator looking for someone who combines strong implementation skills with clear communication and system-level thinking, I would be glad to connect.
-            </p>
-            <div class="contact-actions">
-              <a class="btn btn-secondary" href="PrakhyathBolla_Data.docx" target="_blank">Preview Resume</a>
+            <h2 class="section-title">If you're building real-time data platforms, let’s talk.</h2>
+            <p>I’m actively open to Data Engineering, Real-Time Systems, and Cloud Data Platform roles. If you are modernizing your data stack, scaling streaming infrastructure, or strengthening analytics foundations, I would be glad to contribute.</p>
+            <p><strong>Open to roles:</strong> Data Engineer / Real-Time Data / Cloud Platforms</p>
+            <div class="availability-badge">● Actively seeking opportunities</div>
+            <div class="contact-actions" style="margin-top:1.2rem;">
               <a class="btn btn-primary" href="mailto:prakhyathbolla@gmail.com">Email Me</a>
-              <a class="social-btn" href="https://www.linkedin.com/in/prakhyath-bolla-data-engineer/" target="_blank" rel="noreferrer">
-                <span class="social-icon">
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.94 8.5H3.56V20H6.94V8.5ZM5.25 3C4.17 3 3.5 3.72 3.5 4.66C3.5 5.58 4.15 6.31 5.21 6.31H5.23C6.34 6.31 7.01 5.58 7.01 4.66C6.99 3.72 6.34 3 5.25 3ZM20.5 13.41C20.5 9.88 18.61 8.23 16.09 8.23C14.06 8.23 13.15 9.35 12.64 10.14V8.5H9.26C9.3 9.59 9.26 20 9.26 20H12.64V13.58C12.64 13.24 12.67 12.89 12.76 12.65C13.03 11.96 13.63 11.25 14.67 11.25C16.03 11.25 16.57 12.29 16.57 13.82V20H19.95V13.41H20.5Z"/></svg>
-                </span>
-                LinkedIn
-              </a>
-              <a class="social-btn" href="https://github.com/pbolla1311" target="_blank" rel="noreferrer">
-                <span class="social-icon">
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12A11.5 11.5 0 0 0 8.36 22.94c.58.1.79-.25.79-.56v-2.15c-3.18.69-3.85-1.53-3.85-1.53-.52-1.33-1.28-1.68-1.28-1.68-1.05-.72.08-.71.08-.71 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.71 1.26 3.37.96.1-.74.4-1.26.72-1.55-2.54-.29-5.2-1.27-5.2-5.64 0-1.24.44-2.25 1.17-3.04-.12-.29-.51-1.46.11-3.04 0 0 .95-.3 3.11 1.16A10.8 10.8 0 0 1 12 6.84c.96 0 1.93.13 2.83.39 2.16-1.46 3.11-1.16 3.11-1.16.62 1.58.23 2.75.11 3.04.73.79 1.17 1.8 1.17 3.04 0 4.38-2.66 5.35-5.21 5.63.41.35.77 1.04.77 2.1v3.11c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z"/></svg>
-                </span>
-                GitHub
-              </a>
+              <a class="btn btn-secondary" href="https://docs.google.com/gview?url=https://pbolla1311.github.io/PrakhyathBolla_Data.docx&embedded=true" target="_blank" rel="noreferrer">Preview Resume</a>
             </div>
           </div>
 
@@ -1016,6 +911,20 @@
                 <div>Cloud Platforms, Streaming Systems, and AI-Ready Data Engineering</div>
               </div>
             </div>
+            <div class="button-row" style="margin-top:1rem;">
+              <a class="social-btn" href="https://www.linkedin.com/in/prakhyath-bolla-data-engineer/" target="_blank" rel="noreferrer">
+                <span class="social-icon">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.94 8.5H3.56V20H6.94V8.5ZM5.25 3C4.17 3 3.5 3.72 3.5 4.66C3.5 5.58 4.15 6.31 5.21 6.31H5.23C6.34 6.31 7.01 5.58 7.01 4.66C6.99 3.72 6.34 3 5.25 3ZM20.5 13.41C20.5 9.88 18.61 8.23 16.09 8.23C14.06 8.23 13.15 9.35 12.64 10.14V8.5H9.26C9.3 9.59 9.26 20 9.26 20H12.64V13.58C12.64 13.24 12.67 12.89 12.76 12.65C13.03 11.96 13.63 11.25 14.67 11.25C16.03 11.25 16.57 12.29 16.57 13.82V20H19.95V13.41H20.5Z"/></svg>
+                </span>
+                LinkedIn
+              </a>
+              <a class="social-btn" href="https://github.com/pbolla1311" target="_blank" rel="noreferrer">
+                <span class="social-icon">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12A11.5 11.5 0 0 0 8.36 22.94c.58.1.79-.25.79-.56v-2.15c-3.18.69-3.85-1.53-3.85-1.53-.52-1.33-1.28-1.68-1.28-1.68-1.05-.72.08-.71.08-.71 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.71 1.26 3.37.96.1-.74.4-1.26.72-1.55-2.54-.29-5.2-1.27-5.2-5.64 0-1.24.44-2.25 1.17-3.04-.12-.29-.51-1.46.11-3.04 0 0 .95-.3 3.11 1.16A10.8 10.8 0 0 1 12 6.84c.96 0 1.93.13 2.83.39 2.16-1.46 3.11-1.16 3.11-1.16.62 1.58.23 2.75.11 3.04.73.79 1.17 1.8 1.17 3.04 0 4.38-2.66 5.35-5.21 5.63.41.35.77 1.04.77 2.1v3.11c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z"/></svg>
+                </span>
+                GitHub
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -1031,13 +940,58 @@
   <script>
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
+        if (entry.isIntersecting) entry.target.classList.add('visible');
       });
-    }, { threshold: 0.12 });
+    }, { threshold: 0.14 });
 
     document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+
+    const scrollIndicator = document.getElementById('scrollIndicator');
+    const updateScrollIndicator = () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+      scrollIndicator.style.width = progress + '%';
+    };
+    window.addEventListener('scroll', updateScrollIndicator, { passive: true });
+    updateScrollIndicator();
+
+    const navLinks = document.querySelectorAll('.nav-links a');
+    const sections = document.querySelectorAll('section[id]');
+    const setActiveLink = () => {
+      let current = 'about';
+      sections.forEach(section => {
+        const top = section.offsetTop - 140;
+        const bottom = top + section.offsetHeight;
+        if (window.scrollY >= top && window.scrollY < bottom) {
+          current = section.getAttribute('id');
+        }
+      });
+      navLinks.forEach(link => {
+        link.classList.toggle('active', link.getAttribute('href') === '#' + current);
+      });
+    };
+    window.addEventListener('scroll', setActiveLink, { passive: true });
+    setActiveLink();
+
+    const modeToggle = document.getElementById('modeToggle');
+    const modeIcon = document.getElementById('modeIcon');
+    const body = document.body;
+
+    const applyMode = (mode) => {
+      body.classList.toggle('dark-mode', mode === 'dark-mode');
+      if (mode === 'dark-mode') {
+        modeIcon.innerHTML = '<path d="M12 3V5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 19V21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M4.22 4.22L5.64 5.64" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18.36 18.36L19.78 19.78" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M3 12H5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M19 12H21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M4.22 19.78L5.64 18.36" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18.36 5.64L19.78 4.22" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/>';
+      } else {
+        modeIcon.innerHTML = '<path d="M21 12.79A9 9 0 1 1 11.21 3C11.74 3 12 3.26 12 3.79C12 8.67 15.33 12 20.21 12C20.74 12 21 12.26 21 12.79Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>';
+      }
+      localStorage.setItem('portfolio-mode', mode);
+    };
+
+    applyMode(localStorage.getItem('portfolio-mode') || 'light-mode');
+    modeToggle.addEventListener('click', () => {
+      applyMode(body.classList.contains('dark-mode') ? 'light-mode' : 'dark-mode');
+    });
   </script>
 </body>
 </html>
