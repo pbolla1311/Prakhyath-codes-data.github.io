@@ -467,7 +467,7 @@
     }
 
     .two-col { grid-template-columns: 1fr 1fr; }
-    .projects-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .projects-grid { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
     .stats-grid { grid-template-columns: repeat(4, minmax(0,1fr)); margin-top: 2rem; }
     .contact-grid { grid-template-columns: 1.2fr 0.8fr; }
     .stack-grid { grid-template-columns: repeat(4, minmax(0,1fr)); }
@@ -498,6 +498,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+      object-position: center;
       transition: transform 0.45s ease;
     }
 
@@ -529,6 +530,14 @@
     }
 
     .artifact-detail strong { color: var(--text); }
+
+    .project-links {
+      margin-top: 1rem;
+    }
+
+    .project-links .btn {
+      width: 100%;
+    }
 
     .stat-card h3 {
       margin: 0;
@@ -759,7 +768,7 @@
       </div>
 
       <div class="stats-grid">
-        <div class="stat-card reveal"><h3>4</h3><p>Featured portfolio artifacts</p></div>
+        <div class="stat-card reveal"><h3>5</h3><p>Featured portfolio artifacts</p></div>
         <div class="stat-card reveal"><h3>6+</h3><p>Core technologies highlighted</p></div>
         <div class="stat-card reveal"><h3>100%</h3><p>Focused on practical engineering value</p></div>
         <div class="stat-card reveal"><h3>1</h3><p>Clear professional narrative</p></div>
@@ -847,6 +856,19 @@
           <div class="artifact-detail"><strong>Tools:</strong> AWS, Databricks, SQL</div>
           <div class="artifact-detail"><strong>Value:</strong> Demonstrates the ability to think at the architecture level while staying practical in execution.</div>
           <div class="project-links"><a class="btn btn-primary" href="https://sites.google.com/view/prakhyathbolla/artifact-4?authuser=0" target="_blank" rel="noreferrer">View Artifact</a></div>
+        </article>
+
+        <article class="project-card reveal">
+          <div class="artifact-preview">
+            <img src="AI-image1.jpeg" alt="Artifact 5 preview" />
+            <div class="overlay">View AI Ethics Analysis</div>
+          </div>
+          <h3>Artifact 5: Technical Analysis of Bias in Machine Learning Hiring Systems</h3>
+          <p style="margin-top:-6px; color:var(--muted);">AI ethics, bias propagation, fairness, and human-in-the-loop decision systems</p>
+          <div class="artifact-detail"><strong>Objective:</strong> Analyze how bias enters machine learning systems across data collection, preprocessing, training, and human feedback loops.</div>
+          <div class="artifact-detail"><strong>Tools:</strong> AI Incident Database, ethical AI analysis, fairness concepts, system-level ML reasoning, technical diagrams</div>
+          <div class="artifact-detail"><strong>Value:</strong> Demonstrates my ability to explain complex AI/ML concepts, connect technical design to ethical risk, and present analytical work in a structured and visually engaging way.</div>
+          <div class="project-links"><a class="btn btn-primary" href="https://sites.google.com/view/prakhyathbolla/artifact-5" target="_blank" rel="noreferrer">View Artifact</a></div>
         </article>
       </div>
     </div>
