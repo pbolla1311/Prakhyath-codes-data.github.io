@@ -46,6 +46,7 @@
 
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
+
     body {
       margin: 0;
       font-family: 'Inter', sans-serif;
@@ -150,7 +151,10 @@
       transition: transform 0.2s ease, background 0.2s ease;
     }
 
-    .mode-toggle:hover { transform: translateY(-1px); background: rgba(255,255,255,0.14); }
+    .mode-toggle:hover {
+      transform: translateY(-1px);
+      background: rgba(255,255,255,0.14);
+    }
 
     .hero {
       position: relative;
@@ -284,7 +288,10 @@
       transition: transform 0.25s ease, background 0.25s ease;
     }
 
-    .credibility-item:hover { transform: translateY(-4px); background: rgba(255,255,255,0.11); }
+    .credibility-item:hover {
+      transform: translateY(-4px);
+      background: rgba(255,255,255,0.11);
+    }
 
     .resume-line {
       margin-top: 0.95rem;
@@ -314,6 +321,7 @@
 
     .hero-panel > * { position: relative; z-index: 1; }
     .hero-panel p { color: #e2e8f0; }
+
     .hero-panel:hover {
       transform: translateY(-4px);
       box-shadow: 0 22px 44px rgba(15,23,42,0.18);
@@ -331,7 +339,10 @@
       transition: transform 0.2s ease, background 0.2s ease;
     }
 
-    .social-btn:hover { transform: translateY(-2px); background: rgba(255,255,255,0.16); }
+    .social-btn:hover {
+      transform: translateY(-2px);
+      background: rgba(255,255,255,0.16);
+    }
 
     .social-icon,
     .contact-icon {
@@ -545,7 +556,10 @@
       color: #1d4ed8;
     }
 
-    .stat-card p { margin: 0.25rem 0 0; color: var(--muted); }
+    .stat-card p {
+      margin: 0.25rem 0 0;
+      color: var(--muted);
+    }
 
     .contact-shell {
       position: relative;
@@ -583,15 +597,24 @@
     }
 
     .contact-copy,
-    .contact-card-side { position: relative; z-index: 1; }
+    .contact-card-side {
+      position: relative;
+      z-index: 1;
+    }
+
     .contact-shell:hover {
       transform: translateY(-4px);
       box-shadow: 0 24px 48px rgba(2,8,23,0.24);
     }
+
     .contact-copy { color: #e2e8f0; }
     .contact-copy .mini-title { color: #93c5fd; }
     .contact-copy h2 { color: #fff; margin-bottom: 0.75rem; }
-    .contact-copy p { color: #dbe7f5; max-width: 620px; margin-bottom: 1rem; }
+    .contact-copy p {
+      color: #dbe7f5;
+      max-width: 620px;
+      margin-bottom: 1rem;
+    }
 
     .contact-card-side {
       background: rgba(255,255,255,0.08);
@@ -665,7 +688,11 @@
 
     @media (max-width: 720px) {
       .nav { top: 8px; }
-      .nav-inner { flex-direction: column; align-items: stretch; border-radius: 28px; }
+      .nav-inner {
+        flex-direction: column;
+        align-items: stretch;
+        border-radius: 28px;
+      }
       .nav-actions { justify-content: space-between; }
       .nav-links { gap: 0.4rem; }
       .nav-links a { padding: 0.5rem 0.7rem; }
@@ -690,7 +717,9 @@
           <a href="#contact">Contact</a>
         </div>
         <button class="mode-toggle" id="modeToggle" aria-label="Toggle dark mode">
-          <svg id="modeIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3C11.74 3 12 3.26 12 3.79C12 8.67 15.33 12 20.21 12C20.74 12 21 12.26 21 12.79Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+          <svg id="modeIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3C11.74 3 12 3.26 12 3.79C12 8.67 15.33 12 20.21 12C20.74 12 21 12.26 21 12.79Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+          </svg>
         </button>
       </div>
     </div>
@@ -816,7 +845,9 @@
           <div class="artifact-detail"><strong>Objective:</strong> Reduce latency and enable near real-time fraud analytics for critical business operations.</div>
           <div class="artifact-detail"><strong>Tools:</strong> Kafka, AWS Kinesis, Databricks, Delta Lake, PySpark</div>
           <div class="artifact-detail"><strong>Value:</strong> Demonstrates the ability to build large-scale, low-latency systems that power real-time insight generation.</div>
-          <div class="project-links"><a class="btn btn-primary" href="https://sites.google.com/view/prakhyathbolla/artifact-1?authuser=0" target="_blank" rel="noreferrer">View Artifact</a></div>
+          <div class="project-links">
+            <a class="btn btn-primary" href="https://sites.google.com/view/prakhyathbolla/artifact-1?authuser=0" target="_blank" rel="noreferrer">View Artifact</a>
+          </div>
         </article>
 
         <article class="project-card reveal">
@@ -829,7 +860,9 @@
           <div class="artifact-detail"><strong>Objective:</strong> Improve data accuracy and reduce quality issues in downstream reporting.</div>
           <div class="artifact-detail"><strong>Tools:</strong> Python, SQL, AWS, Validation Frameworks</div>
           <div class="artifact-detail"><strong>Value:</strong> Shows how engineering practices can improve trust, compliance, and usability of business data.</div>
-          <div class="project-links"><a class="btn btn-primary" href="https://sites.google.com/view/prakhyathbolla/artifact-2?authuser=0" target="_blank" rel="noreferrer">View Artifact</a></div>
+          <div class="project-links">
+            <a class="btn btn-primary" href="https://sites.google.com/view/prakhyathbolla/artifact-2?authuser=0" target="_blank" rel="noreferrer">View Artifact</a>
+          </div>
         </article>
 
         <article class="project-card reveal">
@@ -842,7 +875,9 @@
           <div class="artifact-detail"><strong>Objective:</strong> Reduce processing delays and enable real-time or near real-time data delivery.</div>
           <div class="artifact-detail"><strong>Tools:</strong> Kafka, Spark Streaming, AWS</div>
           <div class="artifact-detail"><strong>Value:</strong> Highlights modernization capability and readiness for modern AI and analytics environments.</div>
-          <div class="project-links"><a class="btn btn-primary" href="https://sites.google.com/view/prakhyathbolla/artifact-3?authuser=0" target="_blank" rel="noreferrer">View Artifact</a></div>
+          <div class="project-links">
+            <a class="btn btn-primary" href="https://sites.google.com/view/prakhyathbolla/artifact-3?authuser=0" target="_blank" rel="noreferrer">View Artifact</a>
+          </div>
         </article>
 
         <article class="project-card reveal">
@@ -855,20 +890,24 @@
           <div class="artifact-detail"><strong>Objective:</strong> Create a robust and scalable cloud data platform for modern enterprise needs.</div>
           <div class="artifact-detail"><strong>Tools:</strong> AWS, Databricks, SQL</div>
           <div class="artifact-detail"><strong>Value:</strong> Demonstrates the ability to think at the architecture level while staying practical in execution.</div>
-          <div class="project-links"><a class="btn btn-primary" href="https://sites.google.com/view/prakhyathbolla/artifact-4?authuser=0" target="_blank" rel="noreferrer">View Artifact</a></div>
+          <div class="project-links">
+            <a class="btn btn-primary" href="https://sites.google.com/view/prakhyathbolla/artifact-4?authuser=0" target="_blank" rel="noreferrer">View Artifact</a>
+          </div>
         </article>
 
         <article class="project-card reveal">
           <div class="artifact-preview">
-            <img src="AI-image1.jpeg" alt="Artifact 5 preview" />
+            <img src="AI%20Image%201.jpeg" alt="Artifact 5 preview" />
             <div class="overlay">View AI Ethics Analysis</div>
           </div>
           <h3>Artifact 5: Technical Analysis of Bias in Machine Learning Hiring Systems</h3>
           <p style="margin-top:-6px; color:var(--muted);">AI ethics, bias propagation, fairness, and human-in-the-loop decision systems</p>
           <div class="artifact-detail"><strong>Objective:</strong> Analyze how bias enters machine learning systems across data collection, preprocessing, training, and human feedback loops.</div>
           <div class="artifact-detail"><strong>Tools:</strong> AI Incident Database, ethical AI analysis, fairness concepts, system-level ML reasoning, technical diagrams</div>
-          <div class="artifact-detail"><strong>Value:</strong> Demonstrates my ability to explain complex AI/ML concepts, connect technical design to ethical risk, and present analytical work in a structured and visually engaging way.</div>
-          <div class="project-links"><a class="btn btn-primary" href="https://sites.google.com/view/prakhyathbolla/artifact-5" target="_blank" rel="noreferrer">View Artifact</a></div>
+          <div class="artifact-detail"><strong>Value:</strong> Demonstrates deep understanding of bias propagation, fairness, and system-level AI risks, along with the ability to communicate complex technical ideas clearly.</div>
+          <div class="project-links">
+            <a class="btn btn-primary" href="https://sites.google.com/view/prakhyathbolla/artifact-5" target="_blank" rel="noreferrer">View Artifact</a>
+          </div>
         </article>
       </div>
     </div>
@@ -893,41 +932,60 @@
           <div class="contact-card-side">
             <div class="contact-method">
               <span class="contact-icon">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 6H20V18H4V6Z" stroke="currentColor" stroke-width="2"/><path d="M4 7L12 13L20 7" stroke="currentColor" stroke-width="2"/></svg>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M4 6H20V18H4V6Z" stroke="currentColor" stroke-width="2"/>
+                  <path d="M4 7L12 13L20 7" stroke="currentColor" stroke-width="2"/>
+                </svg>
               </span>
               <div>
                 <div style="font-weight:700; color:#fff;">Email</div>
                 <div>prakhyathbolla@gmail.com</div>
               </div>
             </div>
+
             <div class="contact-method">
               <span class="contact-icon">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 7H17V17H7V7Z" stroke="currentColor" stroke-width="2"/><path d="M12 7V17" stroke="currentColor" stroke-width="2"/><path d="M7 12H17" stroke="currentColor" stroke-width="2"/></svg>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M7 7H17V17H7V7Z" stroke="currentColor" stroke-width="2"/>
+                  <path d="M12 7V17" stroke="currentColor" stroke-width="2"/>
+                  <path d="M7 12H17" stroke="currentColor" stroke-width="2"/>
+                </svg>
               </span>
               <div>
                 <div style="font-weight:700; color:#fff;">Focus Area</div>
                 <div>Real-Time Data Engineering</div>
               </div>
             </div>
+
             <div class="contact-method">
               <span class="contact-icon">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 21C16.97 21 21 16.97 21 12C21 7.03 16.97 3 12 3C7.03 3 3 7.03 3 12C3 16.97 7.03 21 12 21Z" stroke="currentColor" stroke-width="2"/><path d="M3 12H21" stroke="currentColor" stroke-width="2"/><path d="M12 3C14.5 5.4 15.92 8.62 16 12C15.92 15.38 14.5 18.6 12 21C9.5 18.6 8.08 15.38 8 12C8.08 8.62 9.5 5.4 12 3Z" stroke="currentColor" stroke-width="2"/></svg>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M12 21C16.97 21 21 16.97 21 12C21 7.03 16.97 3 12 3C7.03 3 3 7.03 3 12C3 16.97 7.03 21 12 21Z" stroke="currentColor" stroke-width="2"/>
+                  <path d="M3 12H21" stroke="currentColor" stroke-width="2"/>
+                  <path d="M12 3C14.5 5.4 15.92 8.62 16 12C15.92 15.38 14.5 18.6 12 21C9.5 18.6 8.08 15.38 8 12C8.08 8.62 9.5 5.4 12 3Z" stroke="currentColor" stroke-width="2"/>
+                </svg>
               </span>
               <div>
                 <div style="font-weight:700; color:#fff;">What You’ll Find Here</div>
                 <div>Cloud Platforms, Streaming Systems, and AI-Ready Data Engineering</div>
               </div>
             </div>
+
             <div class="button-row" style="margin-top:1rem;">
               <a class="social-btn" href="https://www.linkedin.com/in/prakhyath-bolla-data-engineer/" target="_blank" rel="noreferrer">
                 <span class="social-icon">
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.94 8.5H3.56V20H6.94V8.5ZM5.25 3C4.17 3 3.5 3.72 3.5 4.66C3.5 5.58 4.15 6.31 5.21 6.31H5.23C6.34 6.31 7.01 5.58 7.01 4.66C6.99 3.72 6.34 3 5.25 3ZM20.5 13.41C20.5 9.88 18.61 8.23 16.09 8.23C14.06 8.23 13.15 9.35 12.64 10.14V8.5H9.26C9.3 9.59 9.26 20 9.26 20H12.64V13.58C12.64 13.24 12.67 12.89 12.76 12.65C13.03 11.96 13.63 11.25 14.67 11.25C16.03 11.25 16.57 12.29 16.57 13.82V20H19.95V13.41H20.5Z"/></svg>
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M6.94 8.5H3.56V20H6.94V8.5ZM5.25 3C4.17 3 3.5 3.72 3.5 4.66C3.5 5.58 4.15 6.31 5.21 6.31H5.23C6.34 6.31 7.01 5.58 7.01 4.66C6.99 3.72 6.34 3 5.25 3ZM20.5 13.41C20.5 9.88 18.61 8.23 16.09 8.23C14.06 8.23 13.15 9.35 12.64 10.14V8.5H9.26C9.3 9.59 9.26 20 9.26 20H12.64V13.58C12.64 13.24 12.67 12.89 12.76 12.65C13.03 11.96 13.63 11.25 14.67 11.25C16.03 11.25 16.57 12.29 16.57 13.82V20H19.95V13.41H20.5Z"/>
+                  </svg>
                 </span>
                 LinkedIn
               </a>
+
               <a class="social-btn" href="https://github.com/pbolla1311" target="_blank" rel="noreferrer">
                 <span class="social-icon">
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12A11.5 11.5 0 0 0 8.36 22.94c.58.1.79-.25.79-.56v-2.15c-3.18.69-3.85-1.53-3.85-1.53-.52-1.33-1.28-1.68-1.28-1.68-1.05-.72.08-.71.08-.71 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.71 1.26 3.37.96.1-.74.4-1.26.72-1.55-2.54-.29-5.2-1.27-5.2-5.64 0-1.24.44-2.25 1.17-3.04-.12-.29-.51-1.46.11-3.04 0 0 .95-.3 3.11 1.16A10.8 10.8 0 0 1 12 6.84c.96 0 1.93.13 2.83.39 2.16-1.46 3.11-1.16 3.11-1.16.62 1.58.23 2.75.11 3.04.73.79 1.17 1.8 1.17 3.04 0 4.38-2.66 5.35-5.21 5.63.41.35.77 1.04.77 2.1v3.11c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z"/></svg>
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M12 .5C5.65.5.5 5.65.5 12A11.5 11.5 0 0 0 8.36 22.94c.58.1.79-.25.79-.56v-2.15c-3.18.69-3.85-1.53-3.85-1.53-.52-1.33-1.28-1.68-1.28-1.68-1.05-.72.08-.71.08-.71 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.71 1.26 3.37.96.1-.74.4-1.26.72-1.55-2.54-.29-5.2-1.27-5.2-5.64 0-1.24.44-2.25 1.17-3.04-.12-.29-.51-1.46.11-3.04 0 0 .95-.3 3.11 1.16A10.8 10.8 0 0 1 12 6.84c.96 0 1.93.13 2.83.39 2.16-1.46 3.11-1.16 3.11-1.16.62 1.58.23 2.75.11 3.04.73.79 1.17 1.8 1.17 3.04 0 4.38-2.66 5.35-5.21 5.63.41.35.77 1.04.77 2.1v3.11c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z"/>
+                  </svg>
                 </span>
                 GitHub
               </a>
